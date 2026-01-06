@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #131616;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* ================= HEADER ================= */
+
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #cfbcbc;
+    z-index: 100;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo a {
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #000;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+/* ================= SECTIONS ================= */
+
+main {
+    margin: 120px 0;
+    text-align: center;
+}
+
+
+.section {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.content {
+    text-align: center;
+}
+
+.content h2 {
+    font-size: 2rem;
+}
+
+.content p {
+    margin-bottom: 10px;
+}
+
+/* ================= TODO SECTION ================= */
+
+.todo-section {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.todo-image img {
+    max-width: 320px;
+    width: 100%;
+    border-radius: 50%;
+}
+
+#todo-container {
+    background-color: #cfbcbc;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+}
+
+.cta-btn {
+    font-size: 1rem;
+    width: 320px;
+    max-width: 100%;
+    
+}
+
+.cta-btn:hover {
+    font-size: 1.2rem;
+}
+
+.btn-primary {
+    font-size: 1rem;
+    color: #fff;
+    width: 100%;
+    background-color: #131616;
+}
+
+.btn-primary:hover {
+    background-color: #000;
+}
+
+
+/* ================= TASKS CONTAINER ================= */
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+}
+#tasks {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-top: 40px;
+}
+.task-title {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+.task-title label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+.task {
+    background-color: #cfbcbc;
+    padding: 10px;
+    border-radius: 10px;
+    color: #000;
+    width: 400px;
+    max-width: 100%;
+}
+
+.tasks-container {
+    width: 100%;
+    gap: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    justify-items: center ;
+}
+.edit-dlt-btn-container {
+    margin-top: 6px;
+    display: flex;
+    gap: 12px;
+}
+.edit-btn {
+    background-color: #3f2f2f;
+    color: #fff;
+    font-weight: bold;
+}
+.delete-btn {
+    font-weight: bold;
+    background-color: #a20707;
+    color: #fff;
+}
+.edit-btn:hover, .delete-btn:hover {
+    transform: translate(2px);
+}
+
+/* ================= FOOTER ================= */
+
+.footer {
+    background-color: #cfbcbc;
+    color: #000;
+    text-align: center;
+    padding: 15px;
+    margin-top: 30px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+
+/* ================= STATES ================= */
+
+.completed-task {
+    text-decoration-line: line-through;
+}
+.faded {
+    opacity: 0.5;
+}
+.hidden {
+    display: none;
+}
+
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+    .todo-section {
+        flex-direction: column;
+    }
+
+    .header-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

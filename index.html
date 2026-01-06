@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <h1 class="logo">
+                <a href="#hero">Smart Task Manager</a>
+            </h1>
+
+            <nav class="nav">
+                <ul class="nav-links">
+                    <li><a href="#hero">Home</a></li>
+                    <li><a href="tasks.html">Tasks</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main id="hero">
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="content">
+                <h2>Welcome to Smart Task Manager</h2>
+                <p>
+                    Organize your tasks, track progress, and stay productive.
+                    This app helps you manage your daily goals with simplicity and focus.
+                </p>
+                <button type="button" class="btn cta-btn"><a href="#todo-container">Add Task</a></button>
+            </div>
+        </section>
+
+        <!-- Todo App Section -->
+        <section id="todo-app" class="section todo-section">
+            <div class="todo-image">
+                <img src="task-image-illustration.webp" alt="Task management illustration" loading="lazy">
+            </div>
+
+            <div id="todo-container">
+                <form id="task-form">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" placeholder="Enter task title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date">Due Date</label>
+                        <input type="date" id="date">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="4" placeholder="Task details..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn">Add Task</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Tasks Section -->
+        
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 Smart Task Manager. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
