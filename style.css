@@ -46,14 +46,34 @@ body {
 }
 
 a {
-    text-decoration: none;
-    color: #000;
-    font-weight: 500;
+  position: relative;
+  text-decoration: none;
+  color: #131616;
 }
 
-.nav-links a:hover {
-    text-decoration: underline;
+/* underline */
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #131616;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
 }
+
+/* hover underline */
+.nav-links a:hover::after {
+  width: 100%;
+}
+
+/* active underline */
+.nav-links a.active::after {
+  width: 100%;
+}
+
 
 /* ================= SECTIONS ================= */
 
@@ -152,6 +172,16 @@ main {
     background-color: #000;
 }
 
+.show-task {
+    font-weight: bold;
+    padding: 8px 24px;
+    max-width: 45%;
+    font-size: 1.1rem;
+}
+.show-task:hover {
+    transform: scale(1.1);
+}
+
 
 /* ================= TASKS CONTAINER ================= */
 
@@ -210,6 +240,10 @@ main {
 .edit-btn:hover, .delete-btn:hover {
     transform: translate(2px);
 }
+.task-description {
+    text-align: left;
+    padding-left: 15px;
+}
 
 /* ================= FOOTER ================= */
 
@@ -227,17 +261,30 @@ main {
 
 /* ================= STATES ================= */
 
-.completed-task {
-    text-decoration-line: line-through;
+.task.completed {
+  opacity: 0.6;
 }
-.faded {
-    opacity: 0.5;
+
+.task.completed .task-title label {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.task.completed .edit-btn {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.filter input, .filter label {
+    cursor: pointer;
 }
 .hidden {
     display: none;
 }
 
-
+.btn-primary-task {
+    margin-top: 15px;
+}
 
 /* ================= RESPONSIVE ================= */
 

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Task Manager | Tasks</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header class="header">
         <div class="header-container">
@@ -25,20 +27,22 @@
     </header>
     <main>
         <section class="section" id="tasks">
-    <h2 class="section-title">Your Tasks</h2>
-    <div class="filter">
-        <input type="radio" id="all" name="filter" value="all">
-        <label for="all">All</label>
-        <input type="radio" id="completed" name="filter" value="completed">
-        <label for="completed">Completed</label>
-        <input type="radio" id="pending" name="filter" value="pending">
-        <label for="pending">Pending</label>
-    </div>
-    <div class="tasks-container">
-        
-    </div>
-    <p class="empty-state hidden">No tasks found.</p>
-</section>
+            <h2 class="section-title">Your Tasks</h2>
+            <div class="filter">
+                <input type="radio" id="all" name="filter" value="all" checked>
+                <label for="all">All</label>
+                <input type="radio" id="completed" name="filter" value="completed">
+                <label for="completed">Completed</label>
+                <input type="radio" id="pending" name="filter" value="pending">
+                <label for="pending">Pending</label>
+            </div>
+        </section>
+        <div class="tasks-container">
+    
+        </div>
+        <div class="btn-container">
+            
+        </div>
     </main>
     <footer class="footer">
         <p>© 2026 Smart Task Manager. All rights reserved.</p>
@@ -46,4 +50,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

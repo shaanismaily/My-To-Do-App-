@@ -1,45 +1,45 @@
-/* ---------- DOM ELEMENTS (SAFE) ---------- */
+/* ---------- DOM ELEMENTS ---------- */
 const titleInput = document.getElementById("title");
 const dateInput = document.getElementById("date");
 const descriptionInput = document.getElementById("description");
+const addOrUpdateTaskBtn = document.querySelector(".btn-primary");
 const taskForm = document.getElementById("task-form");
 const taskContainer = document.querySelector(".tasks-container");
+const filterBtns = document.querySelectorAll("input[name='filter']");
+const navLinks = document.querySelectorAll(".nav-links a");
+const currentPage = window.location.pathname.split("/").pop();
+const btnContainer = document.querySelector(".btn-container");
+
+navLinks.forEach((link) => {
+  const linkPage = link.getAttribute("href");
+
+  if (
+    currentPage === linkPage ||
+    (currentPage === "" && linkPage === "index.html")
+  ) {
+    link.classList.add("active");
+  }
+});
 
 /* ---------- STATE ---------- */
-let taskData = [];
+let taskData = JSON.parse(localStorage.getItem("data")) || [];
 let currentTaskId = localStorage.getItem("editingTaskId");
+let activeFilter = "all";
 
-/* ---------- INIT STORAGE ---------- */
-try {
-  const storedData = JSON.parse(localStorage.getItem("data"));
-  taskData = Array.isArray(storedData) ? storedData : [];
-} catch {
-  taskData = [];
+/* ---------- STORAGE ---------- */
+function saveToStorage() {
+  localStorage.setItem("data", JSON.stringify(taskData));
 }
 
-/* ---------- HELPERS ---------- */
-const saveToStorage = () => {
-  localStorage.setItem("data", JSON.stringify(taskData));
-};
-
-const resetForm = () => {
-  if (!titleInput) return;
-  titleInput.value = "";
-  dateInput.value = "";
-  descriptionInput.value = "";
-  localStorage.removeItem("editingTaskId");
-  currentTaskId = null;
-};
-
 /* ---------- ADD / UPDATE ---------- */
-const addOrUpdateTask = () => {
+function addOrUpdateTask() {
   if (!titleInput.value.trim()) {
-    alert("Please provide a title");
+    alert("Please provide a title!");
     return;
   }
 
   if (currentTaskId) {
-    const index = taskData.findIndex(t => t.id === currentTaskId);
+    const index = taskData.findIndex((t) => t.id === currentTaskId);
     if (index !== -1) {
       taskData[index] = {
         ...taskData[index],
@@ -50,47 +50,87 @@ const addOrUpdateTask = () => {
     }
   } else {
     taskData.unshift({
-      id: `${titleInput.value.toLowerCase().split(" ").join("-")}-${Date.now()}`,
+      id: `${titleInput.value
+        .toLowerCase()
+        .split(" ")
+        .join("-")}-${Date.now()}`,
       title: titleInput.value,
       date: dateInput.value,
       description: descriptionInput.value,
+      completed: false,
     });
   }
 
   saveToStorage();
   resetForm();
+  renderUI();
+}
 
-  // redirect ONLY if form exists (index.html)
-  // if (taskForm) {
-  //   window.location.href = "tasks.html";
-  // }
-};
+/* ---------- RESET ---------- */
+function resetForm() {
+  titleInput.value = "";
+  dateInput.value = "";
+  descriptionInput.value = "";
+  currentTaskId = null;
+  localStorage.removeItem("editingTaskId");
+  addOrUpdateTaskBtn.textContent = "Add Task";
+}
+
+/* ---------- FILTER ---------- */
+filterBtns.forEach((btn) => {
+  btn.addEventListener("change", (e) => {
+    activeFilter = e.target.value;
+    renderUI();
+  });
+});
 
 /* ---------- RENDER ---------- */
-const render = () => {
+function renderUI() {
   if (!taskContainer) return;
 
   taskContainer.innerHTML = "";
 
-  if (!taskData.length) {
-    taskContainer.innerHTML = "<p>No tasks found</p>";
+  let visibleTasks = [...taskData];
+
+  if (activeFilter === "completed") {
+    visibleTasks = taskData.filter((task) => task.completed);
+  } else if (activeFilter === "pending") {
+    visibleTasks = taskData.filter((task) => !task.completed);
+  }
+
+  if (!visibleTasks.length) {
+    taskContainer.innerHTML = `
+        <p>No tasks found</p>
+    `;
+    btnContainer.innerHTML = `
+      <button type="button" class="btn-primary-task btn">
+        <a href="index.html">Add Task</a>
+      </button>
+    `
     return;
   }
 
-  taskData.forEach(task => {
+  visibleTasks.forEach((task) => {
     const article = document.createElement("article");
-    article.className = "task";
+    article.className = `task ${task.completed ? "completed" : ""}`;
     article.dataset.id = task.id;
 
     article.innerHTML = `
       <div class="task-header flex">
         <div class="task-title">
-          <input type="checkbox" id="task-${task.id}">
-          <label for="task-${task.id}">${task.title}</label>
+          <input 
+            id="${task.id}" 
+            type="checkbox" 
+            class="task-checkbox" 
+            ${task.completed ? "checked" : ""}
+          >
+          <label for="${task.id}">${task.title}</label>
         </div>
         <div class="task-date">${task.date || ""}</div>
       </div>
+
       <p class="task-description">${task.description || ""}</p>
+
       <div class="edit-dlt-btn-container">
         <button type="button" class="btn edit-btn">Edit</button>
         <button type="button" class="btn delete-btn">Delete</button>
@@ -99,17 +139,17 @@ const render = () => {
 
     taskContainer.appendChild(article);
   });
-};
+}
 
-/* ---------- FORM SUBMIT ---------- */
+/* ---------- FORM ---------- */
 if (taskForm) {
-  // EDIT MODE PREFILL
   if (currentTaskId) {
-    const task = taskData.find(t => t.id === currentTaskId);
+    const task = taskData.find((t) => t.id === currentTaskId);
     if (task) {
       titleInput.value = task.title;
       dateInput.value = task.date;
       descriptionInput.value = task.description;
+      addOrUpdateTaskBtn.textContent = "Update Task";
     }
   }
 
@@ -126,7 +166,15 @@ if (taskContainer) {
     if (!article) return;
 
     const taskId = article.dataset.id;
-    const index = taskData.findIndex(t => t.id === taskId);
+    const index = taskData.findIndex((t) => t.id === taskId);
+    if (index === -1) return;
+
+    if (e.target.classList.contains("task-checkbox")) {
+      taskData[index].completed = e.target.checked;
+      saveToStorage();
+      renderUI();
+      return;
+    }
 
     if (e.target.classList.contains("edit-btn")) {
       localStorage.setItem("editingTaskId", taskId);
@@ -136,22 +184,10 @@ if (taskContainer) {
     if (e.target.classList.contains("delete-btn")) {
       taskData.splice(index, 1);
       saveToStorage();
-      render();
+      renderUI();
     }
   });
 }
 
-/* ---------- INITIAL RENDER ---------- */
-render();
-
-
-const filterBtns = document.querySelectorAll("input[type='radio']");
-
-if (taskContainer) {
-  filterBtns.forEach(btn => {
-    btn.addEventListener("click", popUp);
-  })
-}
-function popUp() {
-  alert("Work in progress on filter function");
-}
+/* ---------- INIT ---------- */
+renderUI();
